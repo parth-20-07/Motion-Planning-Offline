@@ -18,6 +18,8 @@
 
 # Introduction
 
+ [Setup Guide](./Docs/SETUP.md)
+
 # Depth-First Search (DFS)
 
 ## Pseudocode: Iterative Version

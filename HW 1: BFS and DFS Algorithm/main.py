@@ -56,6 +56,7 @@ def draw_path(grid, path, title="Path"):
     plt.title(title)
     plt.axis('scaled')
     plt.gca().invert_yaxis()
+    plt.savefig(f"{title}.png")
 
 
 if __name__ == "__main__":

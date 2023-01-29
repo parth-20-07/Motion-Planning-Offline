@@ -160,7 +160,7 @@ def bfs(grid, start, goal):
             p_queue.put(path_search+'L')
             grid[y][x-1] = 2
     if found:
-        list_path(start, steps, path, final_path)
+        steps, path = list_path(start, steps, path, final_path)
     clear_grid(grid)
 
     if found:
@@ -197,6 +197,56 @@ def dfs(grid, start, goal):
     path = []
     steps = 0
     found = False
+
+    x_stack = []
+    y_stack = []
+    p_stack = []
+
+    y_stack.append(start[0])
+    x_stack.append(start[1])
+    p_stack.append('')
+
+    y, x = start
+    grid[y][x] = 2
+
+    final_path = ''
+
+    # DFS - Terative (G,s)
+    while (len(x_stack) != 0):
+        y = y_stack.pop()
+        x = x_stack.pop()
+        path_search = p_stack.pop()
+
+        if ((y == goal[0]) and (x == goal[1])):
+            final_path = path_search
+            found = True
+            break
+
+        if (is_down_empty(grid, y, x)):
+            y_stack.append(y+1)
+            x_stack.append(x)
+            p_stack.append(path_search+'D')
+            grid[y+1][x] = 2
+        if (is_right_empty(grid, y, x)):
+            y_stack.append(y)
+            x_stack.append(x+1)
+            p_stack.append(path_search+'R')
+            grid[y][x+1] = 2
+        if (is_up_empty(grid, y, x)):
+            y_stack.append(y-1)
+            x_stack.append(x)
+            p_stack.append(path_search+'U')
+            grid[y-1][x] = 2
+        if (is_left_empty(grid, y, x)):
+            y_stack.append(y)
+            x_stack.append(x-1)
+            p_stack.append(path_search+'L')
+            grid[y][x-1] = 2
+
+    if found:
+        steps, path = list_path(start, steps, path, final_path)
+    clear_grid(grid)
+    # DFS Recursive
 
     if found:
         print(f"It takes {steps} steps to find a path using DFS")

@@ -1,6 +1,5 @@
 import queue
 # Basic searching algorithms
-
 # Class for each node in the grid
 
 
@@ -13,66 +12,122 @@ class Node:
         self.parent = None    # previous node
 
 
-right = [0, +1]
-down = [+1, 0]
-left = [0, -1]
-up = [-1, 0]
+# --------------------------- CHECK FOR EMPTY CELLS -------------------------- #
+"""Check if the cell on around is empty
+    Mark as Visited if empty
+
+Args:
+    grid (list(int,int)): 2D Grid to scan
+    y (int): y coordinate of object
+    x (int): x coordinate of object
+    data_type (string): "queue" -> BFS
+                            "stack" -> DFS
+    x_data (x_data_structure): Data Structure to hold info of next x to visit
+    y_data (y_data_structure): Data Structure to hold info of next y to visit
+
+Returns:
+    bool: True -> Cell is empty
+            False -> Cell is visited/obstacle
+"""
 
 
-def is_left_empty(grid, y, x):
+def is_left_empty(grid, y, x, data_type, x_data, y_data):
     if x == 0:
         return False
     else:
         if grid[y][x-1] == 0:
+            if (data_type == 'queue'):
+                x_data.put(x-1)
+                y_data.put(y)
+            elif (data_type == 'stack'):
+                x_data.append(x-1)
+                y_data.append(y)
+            grid[y][x-1] = 2
             return True
         else:
             return False
 
 
-def is_right_empty(grid, y, x):
+def is_right_empty(grid, y, x, data_type, x_data, y_data):
     grid_height = len(grid)-1
     grid_width = len(grid[0]) - 1
     if x == grid_width:
         return False
     else:
         if grid[y][x+1] == 0:
+            if (data_type == 'queue'):
+                x_data.put(x+1)
+                y_data.put(y)
+            elif (data_type == 'stack'):
+                x_data.append(x+1)
+                y_data.append(y)
+            grid[y][x+1] = 2
             return True
         else:
             return False
 
 
-def is_up_empty(grid, y, x):
+def is_up_empty(grid, y, x, data_type, x_data, y_data):
     if y == 0:
         return False
     else:
         if grid[y-1][x] == 0:
+            if (data_type == 'queue'):
+                x_data.put(x)
+                y_data.put(y-1)
+            elif (data_type == 'stack'):
+                x_data.append(x)
+                y_data.append(y-1)
+            grid[y-1][x] = 2
             return True
         else:
             return False
 
 
-def is_down_empty(grid, y, x):
+def is_down_empty(grid, y, x, data_type, x_data, y_data):
     grid_height = len(grid)-1
     grid_width = len(grid[0]) - 1
     if y == grid_height:
         return False
     else:
         if grid[y+1][x] == 0:
+            if (data_type == 'queue'):
+                x_data.put(x)
+                y_data.put(y+1)
+            elif (data_type == 'stack'):
+                x_data.append(x)
+                y_data.append(y+1)
+            grid[y+1][x] = 2
             return True
         else:
             return False
 
 
 def clear_grid(grid):
+    """Change all the visited grid marks from '2' to '0'
+
+    Args:
+        grid (list(int,int)): Grid to plan path
+    """
     for y in range(len(grid)):
         for x in range(len(grid[0])):
             if (grid[y][x] == 2):
                 grid[y][x] = 0
 
 
-def list_path(start, steps, path, final_path):
+def list_path(start, final_path):
+    """Convert the string of path into coordinates to visit
+
+    Args:
+        start ([int,int]): Starting Coordinates of the grid
+        final_path (String): String of path found
+
+    Returns:
+        _type_: _description_
+    """
     # print(f"Steps for BFS: {final_path}")
     y, x = start
+    path = []
     path.append([y, x])
     steps = 1
     for step in final_path:
@@ -138,28 +193,17 @@ def bfs(grid, start, goal):
             found = True
             break
 
-        if (is_right_empty(grid, y, x)):
-            y_queue.put(y)
-            x_queue.put(x+1)
+        if (is_right_empty(grid, y, x, 'queue', x_queue, y_queue)):
             p_queue.put(path_search+'R')
-            grid[y][x+1] = 2
-        if (is_down_empty(grid, y, x)):
-            y_queue.put(y+1)
-            x_queue.put(x)
+        if (is_down_empty(grid, y, x, 'queue', x_queue, y_queue)):
             p_queue.put(path_search+'D')
-            grid[y+1][x] = 2
-        if (is_left_empty(grid, y, x)):
-            y_queue.put(y)
-            x_queue.put(x-1)
+        if (is_left_empty(grid, y, x, 'queue', x_queue, y_queue)):
             p_queue.put(path_search+'L')
-            grid[y][x-1] = 2
-        if (is_up_empty(grid, y, x)):
-            y_queue.put(y-1)
-            x_queue.put(x)
+        if (is_up_empty(grid, y, x, 'queue', x_queue, y_queue)):
             p_queue.put(path_search+'U')
-            grid[y-1][x] = 2
+
     if found:
-        steps, path = list_path(start, steps, path, final_path)
+        steps, path = list_path(start, final_path)
     clear_grid(grid)
 
     if found:
@@ -221,29 +265,17 @@ def dfs(grid, start, goal):
             found = True
             break
 
-        if (is_right_empty(grid, y, x)):
-            y_stack.append(y)
-            x_stack.append(x+1)
+        if (is_right_empty(grid, y, x, 'stack', x_stack, y_stack)):
             p_stack.append(path_search+'R')
-            grid[y][x+1] = 2
-        elif (is_down_empty(grid, y, x)):
-            y_stack.append(y+1)
-            x_stack.append(x)
+        if (is_down_empty(grid, y, x, 'stack', x_stack, y_stack)):
             p_stack.append(path_search+'D')
-            grid[y+1][x] = 2
-        elif (is_left_empty(grid, y, x)):
-            y_stack.append(y)
-            x_stack.append(x-1)
+        if (is_left_empty(grid, y, x, 'stack', x_stack, y_stack)):
             p_stack.append(path_search+'L')
-            grid[y][x-1] = 2
-        elif (is_up_empty(grid, y, x)):
-            y_stack.append(y-1)
-            x_stack.append(x)
+        if (is_up_empty(grid, y, x, 'stack', x_stack, y_stack)):
             p_stack.append(path_search+'U')
-            grid[y-1][x] = 2
 
     if found:
-        steps, path = list_path(start, steps, path, final_path)
+        steps, path = list_path(start, final_path)
     clear_grid(grid)
 
     if found:

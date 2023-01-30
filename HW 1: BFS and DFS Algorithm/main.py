@@ -1,11 +1,41 @@
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
+import matplotlib.cbook as cbook
+import matplotlib.image as image
 import csv
-
+import os
+import time
 from search import dfs, bfs
+import numpy as np
 
+
+from PIL import Image
+
+
+def merge_images(file1, file2, seconds):
+    """Merge two images into one, displayed side by side
+    :param file1: path to first image file
+    :param file2: path to second image file
+    :return: the merged Image object
+    """
+    image1 = Image.open(file1)
+    image2 = Image.open(file2)
+
+    (width1, height1) = image1.size
+    (width2, height2) = image2.size
+
+    result_width = width1 + width2
+    result_height = max(height1, height2)
+
+    result = Image.new('RGB', (result_width, result_height))
+    result.paste(im=image1, box=(0, 0))
+    result.paste(im=image2, box=(width1, 0))
+    result.save(f'Images/{seconds} Map.png')
+    return result
 
 # Load map, start and goal point.
+
+
 def load_map(file_path):
     grid = []
     start = [0, 0]
@@ -29,7 +59,7 @@ def load_map(file_path):
 
 
 # Draw final results
-def draw_path(grid, path, title="Path"):
+def draw_path(grid, path, title, steps):
     # Visualization of the found path using matplotlib
     fig, ax = plt.subplots(1)
     ax.margins()
@@ -53,7 +83,7 @@ def draw_path(grid, path, title="Path"):
     ax.add_patch(Rectangle((goal[1]-0.5, goal[0]-0.5),
                  1, 1, edgecolor='k', facecolor='r'))  # goal
     # Graph settings
-    plt.title(title)
+    plt.title(f"{title}: {steps} Steps")
     plt.axis('scaled')
     plt.gca().invert_yaxis()
     plt.savefig(f"{title}.png")
@@ -68,6 +98,11 @@ if __name__ == "__main__":
     dfs_path, dfs_steps = dfs(grid, start, goal)
 
     # Show result
-    draw_path(grid, bfs_path, 'BFS')
-    draw_path(grid, dfs_path, 'DFS')
-    plt.show()
+    seconds = round(time.time())
+    draw_path(grid, bfs_path, 'BFS',  bfs_steps)
+    draw_path(grid, dfs_path, 'DFS',  dfs_steps)
+
+    if not os.path.isdir('Images'):
+        os.mkdir('Images')
+    merge_images('BFS.png', 'DFS.png', seconds)
+    os.system(f'rm BFS.png DFS.png')

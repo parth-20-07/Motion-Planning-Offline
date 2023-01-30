@@ -7,10 +7,13 @@
 - [Depth-First Search DFS](#depth-first-search-dfs)
     - [Pseudocode: Iterative Version](#pseudocode-iterative-version)
     - [Pseudocode: Recursive Version](#pseudocode-recursive-version)
-    - [Python Code](#python-code)
+    - [Code Explaination](#code-explaination)
 - [Breadth-First Search BFS](#breadth-first-search-bfs)
     - [Pseudocode](#pseudocode)
-    - [Python Code](#python-code)
+    - [Code Explaination](#code-explaination)
+- [How to run the code](#how-to-run-the-code)
+    - [Install Essential Dependencies](#install-essential-dependencies)
+    - [Run the code](#run-the-code)
 - [Results](#results)
 - [Resources](#resources)
 
@@ -70,7 +73,7 @@ DFS Search Simulation:
 
 ![DFS Search](https://d18l82el6cdm1i.cloudfront.net/uploads/mf7THWHAbL-mazegif.gif)
 
-## Python Code
+## Code Explaination
 
 Define function to implement DFS Algorithm.
 
@@ -190,7 +193,7 @@ BFS Search Simulation:
 
 ![BFS Search](https://upload.wikimedia.org/wikipedia/commons/f/f5/BFS-Algorithm_Search_Way.gif)
 
-## Python Code
+## Code Explaination
 
 Define function to implement BFS Algorithm.
 
@@ -277,6 +280,25 @@ if found:
 else:
     print("No path found")
 return path, steps
+```
+
+# How to run the code
+
+## Install Essential Dependencies
+
+Install the essential packages used to make sure the dependencies used in the code are satisfied. This can be done by using the `requirements.txt` file attached along the code. In a terminal opened inside the project folder, run the command:
+
+```shell
+pip install -r requirements.txt
+```
+
+:timer_clock: *This is going to take some time to finish, maybe grab a coffee meanwhile?*
+
+## Run the code
+Open a new terminal inside this folder and run:
+
+```shell
+python3 main.py
 ```
 
 # Results

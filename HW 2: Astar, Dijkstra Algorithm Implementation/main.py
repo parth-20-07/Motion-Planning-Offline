@@ -38,15 +38,20 @@ def draw_path(grid, path, title="Path"):
     col = len(grid[0])  # map size
     for i in range(row):
         for j in range(col):
-            if grid[i][j]: 
-                ax.add_patch(Rectangle((j-0.5, i-0.5),1,1,edgecolor='k',facecolor='k'))  # obstacle
-            else:          
-                ax.add_patch(Rectangle((j-0.5, i-0.5),1,1,edgecolor='k',facecolor='w'))  # free space
+            if grid[i][j]:
+                ax.add_patch(Rectangle((j-0.5, i-0.5), 1, 1,
+                             edgecolor='k', facecolor='k'))  # obstacle
+            else:
+                ax.add_patch(Rectangle((j-0.5, i-0.5), 1, 1,
+                             edgecolor='k', facecolor='w'))  # free space
     # Draw path
     for x, y in path:
-        ax.add_patch(Rectangle((y-0.5, x-0.5),1,1,edgecolor='k',facecolor='b'))          # path
-    ax.add_patch(Rectangle((start[1]-0.5, start[0]-0.5),1,1,edgecolor='k',facecolor='g'))# start
-    ax.add_patch(Rectangle((goal[1]-0.5, goal[0]-0.5),1,1,edgecolor='k',facecolor='r'))  # goal
+        ax.add_patch(Rectangle((y-0.5, x-0.5), 1, 1,
+                     edgecolor='k', facecolor='b'))          # path
+    ax.add_patch(Rectangle((start[1]-0.5, start[0]-0.5),
+                 1, 1, edgecolor='k', facecolor='g'))  # start
+    ax.add_patch(Rectangle((goal[1]-0.5, goal[0]-0.5),
+                 1, 1, edgecolor='k', facecolor='r'))  # goal
     # Graph settings
     plt.title(title)
     plt.axis('scaled')
@@ -59,9 +64,9 @@ if __name__ == "__main__":
 
     # Search
     dij_path, dij_steps = dijkstra(grid, start, goal)
-    aster_path, aster_steps = astar(grid, start, goal)
+    # aster_path, aster_steps = astar(grid, start, goal)
 
     # Show result
     draw_path(grid, dij_path, 'Dijkstra')
-    draw_path(grid, aster_path, 'A*')
+    # draw_path(grid, aster_path, 'A*')
     plt.show()

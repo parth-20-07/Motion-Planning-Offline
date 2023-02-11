@@ -254,7 +254,7 @@ def dijkstra(grid, start, goal):
     steps = 0
     found = False
 
-    grid_data = np.zeros([len(grid), len(grid[0]), 3], dtype=np.int)
+    grid_data = np.zeros([len(grid), len(grid[0]), 3], dtype=int)
 
     for y in range(len(grid)):
         for x in range(len(grid[0])):
@@ -269,71 +269,72 @@ def dijkstra(grid, start, goal):
     grid_data[start[0]][start[1]] = (start[0], start[1], 0)
 
     while not x_queue.empty():
+        steps += 1
         x = x_queue.get()
         y = y_queue.get()
         distance = grid_data[y][x][2]
 
         if ((y == goal[0]) and (x == goal[1])):
             found = True
-            break
 
-        if (is_down_empty(grid, y, x, 'queue', x_queue, y_queue)):
-            ny = y+1
-            nx = x
-            x_queue.put(nx)
-            y_queue.put(ny)
-            if (grid_data[ny][nx][2] > distance+1):
-                grid_data[ny][nx] = (y, x, distance+1)
-        if (is_down_left_empty(grid, y, x, 'queue', x_queue, y_queue)):
-            ny = y+1
-            nx = x-1
-            x_queue.put(nx)
-            y_queue.put(ny)
-            if (grid_data[ny][nx][2] > distance+1):
-                grid_data[ny][nx] = (y, x, distance+1)
-        if (is_left_empty(grid, y, x, 'queue', x_queue, y_queue)):
-            ny = y
-            nx = x-1
-            x_queue.put(nx)
-            y_queue.put(ny)
-            if (grid_data[ny][nx][2] > distance+1):
-                grid_data[ny][nx] = (y, x, distance+1)
-        if (is_up_left_empty(grid, y, x, 'queue', x_queue, y_queue)):
-            ny = y-1
-            nx = x-1
-            x_queue.put(nx)
-            y_queue.put(ny)
-            if (grid_data[ny][nx][2] > distance+1):
-                grid_data[ny][nx] = (y, x, distance+1)
-        if (is_up_empty(grid, y, x, 'queue', x_queue, y_queue)):
-            ny = y-1
-            nx = x
-            x_queue.put(nx)
-            y_queue.put(ny)
-            if (grid_data[ny][nx][2] > distance+1):
-                grid_data[ny][nx] = (y, x, distance+1)
-        if (is_up_right_empty(grid, y, x, 'queue', x_queue, y_queue)):
-            ny = y-1
-            nx = x+1
-            x_queue.put(nx)
-            y_queue.put(ny)
-            if (grid_data[ny][nx][2] > distance+1):
-                grid_data[ny][nx] = (y, x, distance+1)
-        if (is_right_empty(grid, y, x, 'queue', x_queue, y_queue)):
-            ny = y
-            nx = x+1
-            x_queue.put(nx)
-            y_queue.put(ny)
-            if (grid_data[ny][nx][2] > distance+1):
-                grid_data[ny][nx] = (y, x, distance+1)
-        if (is_down_right_empty(grid, y, x, 'queue', x_queue, y_queue)):
-            ny = y+1
-            nx = x+1
-            x_queue.put(nx)
-            y_queue.put(ny)
-            if (grid_data[ny][nx][2] > distance+1):
-                grid_data[ny][nx] = (y, x, distance+1)
-        grid[y][x] = 2
+        if (grid[y][x] == 0):
+            if (is_down_empty(grid, y, x, 'queue', x_queue, y_queue)):
+                ny = y+1
+                nx = x
+                x_queue.put(nx)
+                y_queue.put(ny)
+                if (grid_data[ny][nx][2] > distance+1):
+                    grid_data[ny][nx] = (y, x, distance+1)
+            if (is_down_left_empty(grid, y, x, 'queue', x_queue, y_queue)):
+                ny = y+1
+                nx = x-1
+                x_queue.put(nx)
+                y_queue.put(ny)
+                if (grid_data[ny][nx][2] > distance+2):
+                    grid_data[ny][nx] = (y, x, distance+2)
+            if (is_left_empty(grid, y, x, 'queue', x_queue, y_queue)):
+                ny = y
+                nx = x-1
+                x_queue.put(nx)
+                y_queue.put(ny)
+                if (grid_data[ny][nx][2] > distance+1):
+                    grid_data[ny][nx] = (y, x, distance+1)
+            if (is_up_left_empty(grid, y, x, 'queue', x_queue, y_queue)):
+                ny = y-1
+                nx = x-1
+                x_queue.put(nx)
+                y_queue.put(ny)
+                if (grid_data[ny][nx][2] > distance+2):
+                    grid_data[ny][nx] = (y, x, distance+2)
+            if (is_up_empty(grid, y, x, 'queue', x_queue, y_queue)):
+                ny = y-1
+                nx = x
+                x_queue.put(nx)
+                y_queue.put(ny)
+                if (grid_data[ny][nx][2] > distance+1):
+                    grid_data[ny][nx] = (y, x, distance+1)
+            if (is_up_right_empty(grid, y, x, 'queue', x_queue, y_queue)):
+                ny = y-1
+                nx = x+1
+                x_queue.put(nx)
+                y_queue.put(ny)
+                if (grid_data[ny][nx][2] > distance+2):
+                    grid_data[ny][nx] = (y, x, distance+2)
+            if (is_right_empty(grid, y, x, 'queue', x_queue, y_queue)):
+                ny = y
+                nx = x+1
+                x_queue.put(nx)
+                y_queue.put(ny)
+                if (grid_data[ny][nx][2] > distance+1):
+                    grid_data[ny][nx] = (y, x, distance+1)
+            if (is_down_right_empty(grid, y, x, 'queue', x_queue, y_queue)):
+                ny = y+1
+                nx = x+1
+                x_queue.put(nx)
+                y_queue.put(ny)
+                if (grid_data[ny][nx][2] > distance+2):
+                    grid_data[ny][nx] = (y, x, distance+2)
+            grid[y][x] = 2
 
     if found:
         y, x = goal
@@ -345,7 +346,6 @@ def dijkstra(grid, start, goal):
             path.append([y, x])
             if ((y == start[0]) and (x == start[1])):
                 break
-        steps = len(path)
     clear_grid(grid)
 
     if found:
@@ -375,6 +375,104 @@ def astar(grid, start, goal):
     path = []
     steps = 0
     found = False
+
+    grid_data = np.zeros([len(grid), len(grid[0]), 4],
+                         dtype=int)  # y,x,cost,heuristic
+
+    for y in range(len(grid)):
+        for x in range(len(grid[0])):
+            grid_data[y][x][2] = int('inf')
+            grid_data[y][x][3] = int('inf')
+
+    x_list = []
+    y_list = []
+
+    x_list.append(start[1])
+    y_list.append(start[0])
+
+    grid_data[start[0]][start[1]] = (
+        start[0], start[1], 0, abs(goal[0]-start[0])+abs(goal[1]-start[1]))
+
+    while not x_list.empty():
+        steps += 1
+        x = x_list.get()
+        y = y_list.get()
+        distance = grid_data[y][x][2]
+
+        if ((y == goal[0]) and (x == goal[1])):
+            found = True
+            break
+
+        if (grid[y][x] == 0):
+            if (is_down_empty(grid, y, x, 'queue', x_list, y_list)):
+                ny = y+1
+                nx = x
+                x_list.put(nx)
+                y_list.put(ny)
+                if (grid_data[ny][nx][2] > distance+1):
+                    grid_data[ny][nx] = (y, x, distance+1)
+            if (is_down_left_empty(grid, y, x, 'queue', x_list, y_list)):
+                ny = y+1
+                nx = x-1
+                x_list.put(nx)
+                y_list.put(ny)
+                if (grid_data[ny][nx][2] > distance+2):
+                    grid_data[ny][nx] = (y, x, distance+2)
+            if (is_left_empty(grid, y, x, 'queue', x_list, y_list)):
+                ny = y
+                nx = x-1
+                x_list.put(nx)
+                y_list.put(ny)
+                if (grid_data[ny][nx][2] > distance+1):
+                    grid_data[ny][nx] = (y, x, distance+1)
+            if (is_up_left_empty(grid, y, x, 'queue', x_list, y_list)):
+                ny = y-1
+                nx = x-1
+                x_list.put(nx)
+                y_list.put(ny)
+                if (grid_data[ny][nx][2] > distance+2):
+                    grid_data[ny][nx] = (y, x, distance+2)
+            if (is_up_empty(grid, y, x, 'queue', x_list, y_list)):
+                ny = y-1
+                nx = x
+                x_list.put(nx)
+                y_list.put(ny)
+                if (grid_data[ny][nx][2] > distance+1):
+                    grid_data[ny][nx] = (y, x, distance+1)
+            if (is_up_right_empty(grid, y, x, 'queue', x_list, y_list)):
+                ny = y-1
+                nx = x+1
+                x_list.put(nx)
+                y_list.put(ny)
+                if (grid_data[ny][nx][2] > distance+2):
+                    grid_data[ny][nx] = (y, x, distance+2)
+            if (is_right_empty(grid, y, x, 'queue', x_list, y_list)):
+                ny = y
+                nx = x+1
+                x_list.put(nx)
+                y_list.put(ny)
+                if (grid_data[ny][nx][2] > distance+1):
+                    grid_data[ny][nx] = (y, x, distance+1)
+            if (is_down_right_empty(grid, y, x, 'queue', x_list, y_list)):
+                ny = y+1
+                nx = x+1
+                x_list.put(nx)
+                y_list.put(ny)
+                if (grid_data[ny][nx][2] > distance+2):
+                    grid_data[ny][nx] = (y, x, distance+2)
+            grid[y][x] = 2
+
+    if found:
+        y, x = goal
+        while True:
+            ny = grid_data[y][x][0]
+            nx = grid_data[y][x][1]
+            y = ny
+            x = nx
+            path.append([y, x])
+            if ((y == start[0]) and (x == start[1])):
+                break
+    clear_grid(grid)
 
     if found:
         print(f"It takes {steps} steps to find a path using A*")

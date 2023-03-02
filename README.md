@@ -3,8 +3,9 @@
 <!-- TOC -->
 
 - [Introduction](#introduction)
-- [How to run the Assignments](#how-to-run-the-assignments)
+- [Assignments](#assignments)
     - [Assignment 1](#assignment-1)
+- [Final Project](#final-project)
 - [Designer Details](#designer-details)
 - [License](#license)
 
@@ -16,11 +17,17 @@ The aim of the course is to learn and understand Motion Planning for Path planni
 
 Each Assignment shown here has a detailed explaination in its own directory. Please refer the individual directories for in-depth explaination of how the code works.
 
-# How to run the Assignments
+# Assignments
 
 ## [Assignment 1](/HW%201%3A%20BFS%20and%20DFS%20Algorithm/)
 
 The aim of the assignment is to learn Breadth-First Search and Depth-First Search implementation.
+
+
+# Final Project
+Project Topic: [**Trajectory Planning for UAV Swarm**](https://github.com/parth-20-07/Trajectory-Planning-for-UAV-Swarm)
+
+The project focuses on developing Motion Path for a swarm of UAVs along with collision avoidance.
 
 # Designer Details
 
